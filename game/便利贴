@@ -1,0 +1,462 @@
+renpy.random.randint(0, 20)
+renpy.random.choice(tempfzlist)
+NPC_fz_list
+emplist = sorted(templist, key=attrgetter("qingxiang"),reverse = True)
+NPC_fz_list
+$lucky = (0,100 - my.lucky + 5)
+renpy.call(" ",fz = i,from_current=False)
+acc01,acc02,acc03,acc04,acc05,acc06,acc07,acc08,acc09,acc10,acc11,acc12,acc13,acc14,acc15,acc16,
+cloth01,cloth02,cloth03,cloth04,cloth05,cloth06,cloth07,cloth08,cloth09,cloth10,cloth11,cloth12,cloth13,cloth14,cloth15,cloth16,
+set01,set02,set03,set04,set05,set06,set07,set08,set09,set10,set11,set12,set13,set14,set15,set16
+
+
+class CopyCode(Action):
+    def __init__(self, s):
+        self.s = s
+
+    def __call__(self):
+        import pygame.scrap
+        pygame.scrap.put(pygame.SCRAP_TEXT, self.s.encode("utf-8"))
+        renpy.notify(_("Copied the example to the clipboard."))
+
+
+        textbutton _("copy"):
+            style "empty"
+            text_style "quick_button_text"
+            text_text_align 0.5
+            text_minwidth 180
+
+            text_size 16
+
+            action CopyCode(raw_code)
+
+
+            menu:
+                "开始争锋":
+                    call battle(fz = fz)
+                    $ timenum = timenum +1
+                    $ AP = AP -1
+                    jump 皇宫界面
+
+                "自动争锋":
+                    if zidongbattle(zhu = fz,bei=my)> 0:
+                        $fz.yali -= 5
+                        $my.yali += 5
+                        "[fz.hao][fz.weifen] [fz.name]" "（欣喜）是我赢了！"
+                    else:
+                        $fz.yali += 5
+                        $my.yali -= 5
+                        "[fz.hao][fz.weifen] [fz.name]" "（黯然）是我输了……"
+                    $ timenum = timenum +1
+                    $ AP = AP -1
+                    jump 皇宫界面
+
+
+
+                    if hdxingge == "温柔":
+                        if my.meili*0.7+my.qizhi*0.3 > 1000:
+                            $my.love = my.love +3
+                        elif my.meili*0.7+my.qizhi*0.3 > 800:
+                            $my.love = my.love +2
+                        else :
+                            $my.love = my.love +1
+                    elif hdxingge == "风流":
+                        if my.beauty*0.7 +my.meili*0.3 >1000:
+                            $my.love = my.love +3
+                        elif my.beauty*0.7 +my.meili*0.3 >800:
+                            $my.love = my.love +2
+                        else :
+                            $my.love = my.love +1
+                    elif hdxingge == "刚正":
+                        if my.qizhi*0.7 +my.beauty*0.3 >1000:
+                            $my.love = my.love +3
+                        elif my.qizhi*0.7 +my.beauty*0.3 >800:
+                            $my.love = my.love +2
+                        else :
+                            $my.love = my.love +1
+                    elif hdxingge == "冷漠":
+                        if my.xinji < 100:
+                            $my.love = my.love +4
+                        elif my.xinji < 200:
+                            $my.love = my.love +3
+                        elif my.xinji < 400:
+                            $my.love = my.love +2
+                        else:
+                            $my.love = my.love +1
+                    elif hdxingge == "腹黑":
+                        if my.xinji > 900:
+                            $my.love = my.love +4
+                        elif my.xinji > 800:
+                            $my.love = my.love +3
+                        elif my.xinji > 600:
+                            $my.love = my.love +2
+                        else:
+                            $my.love = my.love +1
+                    else:
+                        pass
+
+
+
+                        def ChangeGongnv(self):
+                            templist0 = []
+                            templist1 = []
+                            templist2 = []
+                            templist3 = []
+                            templist4 = []
+
+                            for i in self.Gongnv:
+                                if i.lv == 0:
+                                    templist0.append(i)
+                                elif i.lv == 1:
+                                    templist1.append(i)
+                                elif i.lv == 2:
+                                    templist2.append(i)
+                                elif i.lv == 3:
+                                    templist3.append(i)
+                                elif i.lv == 4:
+                                    templist4.append(i)
+                                else:
+                                    pass
+
+                            if self.level == 0:
+                                if len(templist0) < 1:
+                                    makeGongnv(self,1,"宫女","长御")
+                                else:
+                                    pass
+                                if len(templist1) < 1:
+                                    makeGongnv(self,1,"宫女","女官")
+                                else:
+                                    pass
+                                if len(templist2) < 2:
+                                    a = 2 - len(templist2)
+                                    makeGongnv(self,a,"宫女","大宫女")
+                                else:
+                                    pass
+                                if len(templist3) < 2:
+                                    a = 2 - len(templist3)
+                                    makeGongnv(self,a,"宫女","贴身侍女")
+                                else:
+                                    pass
+                                if len(templist4) < 4:
+                                    a = 2 - len(templist4)
+                                    makeGongnv(self,a,"宫女","婢子")
+                                else:
+                                    pass
+
+                            elif self.level <4:
+                                if len(templist0) > 0:
+                                    for i in templist0:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist1) < 1:
+                                    makeGongnv(self,1,"宫女","女官")
+                                elif len(templist1) > 1:
+                                    for i in templist1[1:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist2) < 1:
+                                    a = 1 - len(templist2)
+                                    makeGongnv(self,a,"宫女","大宫女")
+                                elif len(templist2) > 1:
+                                    for i in templist2[1:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist3) < 2:
+                                    a = 2 - len(templist3)
+                                    makeGongnv(self,a,"宫女","贴身侍女")
+                                elif len(templist3) > 2:
+                                    for i in templist3[2:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist4) < 3:
+                                    a = 3 - len(templist4)
+                                    makeGongnv(self,a,"宫女","婢子")
+                                elif len(templist4) > 3:
+                                    for i in templist4[3:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+
+                            elif self.level <8:
+                                if len(templist0) > 0:
+                                    for i in templist0:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist1) > 0:
+                                    for i in templist1:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist2) < 1:
+                                    a = 1 - len(templist2)
+                                    makeGongnv(self,a,"宫女","大宫女")
+                                elif len(templist2) > 1:
+                                    for i in templist2[1:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist3) < 1:
+                                    a = 1 - len(templist3)
+                                    makeGongnv(self,a,"宫女","贴身侍女")
+                                elif len(templist3) > 2:
+                                    for i in templist3[2:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist4) < 2:
+                                    a = 2 - len(templist4)
+                                    makeGongnv(self,a,"宫女","婢子")
+                                elif len(templist4) > 2:
+                                    for i in templist4[2:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+
+
+                            elif self.level <13:
+                                if len(templist0) > 0:
+                                    for i in templist0:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist1) > 0:
+                                    for i in templist1:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist2) > 0:
+                                    for i in templist2:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist3) < 1:
+                                    a = 1 - len(templist3)
+                                    makeGongnv(self,a,"宫女","贴身侍女")
+                                elif len(templist3) > 1:
+                                    for i in templist3[1:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist4) < 2:
+                                    a = 2 - len(templist4)
+                                    makeGongnv(self,a,"宫女","婢子")
+                                elif len(templist4) > 2:
+                                    for i in templist4[2:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+
+                            elif self.level < beifei:
+                                if len(templist0) > 0:
+                                    for i in templist0:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist1) > 0:
+                                    for i in templist1:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist2) > 0:
+                                    for i in templist2:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist3) < 1:
+                                    a = 1 - len(templist3)
+                                    makeGongnv(self,a,"宫女","贴身侍女")
+                                elif len(templist3) > 1:
+                                    for i in templist3[1:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                                if len(templist4) < 1:
+                                    a = 1 - len(templist4)
+                                    makeGongnv(self,a,"宫女","婢子")
+                                elif len(templist4) > 1:
+                                    for i in templist4[1:]:
+                                        i.level = "散役"
+                                        i.lv = 5
+                                else:
+                                    pass
+                            else:
+                                pass
+
+
+                                if self.level == 0:
+                                    makeGongnv(self,1,"宫女","长御")
+                                    makeGongnv(self,1,"宫女","女官")
+                                    makeGongnv(self,2,"宫女","大宫女")
+                                    makeGongnv(self,2,"宫女","贴身侍女")
+                                    makeGongnv(self,4,"宫女","婢子")
+                                elif self.level < 4:
+                                    makeGongnv(self,1,"宫女","女官")
+                                    makeGongnv(self,1,"宫女","大宫女")
+                                    makeGongnv(self,2,"宫女","贴身侍女")
+                                    makeGongnv(self,3,"宫女","婢子")
+                                elif self.level < 8:
+                                    makeGongnv(self,1,"宫女","大宫女")
+                                    makeGongnv(self,1,"宫女","贴身侍女")
+                                    makeGongnv(self,2,"宫女","婢子")
+                                elif self.level < 13:
+                                    makeGongnv(self,1,"宫女","贴身侍女")
+                                    makeGongnv(self,2,"宫女","婢子")
+                                else:
+                                    makeGongnv(self,1,"宫女","贴身侍女")
+                                    makeGongnv(self,1,"宫女","婢子")
+
+
+                                    def __init__(self,zhu,bei,way,time1,time2,hemou1,hemou2,jilv,state):
+                                        self.name = name
+                                        self.zhu = zhu #发起方
+                                        self.bei = bei #被造谣者
+                                        self.way = way #造谣内容：0欺凌宫人、1妄议朝政、2不敬先祖
+                                        self.time1 = time1 #谣言准备时间：为0时谣言开始发酵，欺凌宫人=1、妄议朝政=3、不敬先祖=6
+                                        self.time2 = time2 #调查持续时间：初始为3，为0时事件结束，不可再调查
+                                        self.hemou1 = hemou1 #同谋1
+                                        self.hemou2 = hemou2 #同谋2
+                                        self.state = state #事件状态：999准备中、-1调查失败/事件结束、0调查成功、1调查中
+                                        self.jilv = jilv #被发现的几率，0则会被发现
+
+
+
+                                        if timenum == 1 and tian in NPC_fz_list and tian.like >= 50  and huaiyun(my) == False and jinzu(my) == False and my.level != beifei and huaiyun(tian) == False and jinzu(tian) == False :
+                                            $lucky = renpy.random.randint(0, 300)
+                                            if  4 < month < 8 or month < 2 or month > 10:
+                                                pass
+
+                                            elif lucky < tian.like*0.1 :
+                                                $bg("寝居")
+                                                show 我的宫女
+                                                $lucky = renpy.random.randint(0, 6)
+                                                if lucky <= 1:
+                                                    我的宫女 "[my.cheng]，[tian.cheng]那边托人传了话，说想邀请您一同去御花园游玩。"
+                                                elif 1 < lucky < 4:
+                                                    我的宫女 "[my.cheng]，[tian.cheng]那边托人传了话，说想邀请您一同去太液池游玩。"
+                                                elif 3 < lucky < 6:
+                                                    我的宫女 "[my.cheng]，[tian.cheng]那边托人传了话，说想邀请您一同去上林苑游玩。"
+                                                else:
+                                                    我的宫女 "[my.cheng]，[tian.cheng]那边托人传了话，说想邀请您一同在宫中游玩。"
+                                                menu:
+                                                    我 "（以甜儿的性子，怕这一去又是一整天……）"
+                                                    "应允":
+                                                        if lucky <= 1:
+                                                            $bg("御花园")
+                                                            show 高甜 入宫后 笑
+                                                            "和高甜在御花园玩耍了一整天……沉醉在动人的鸟语和馥郁的花香之中。"
+                                                            "（魅力上升。）"
+                                                            "虽然疲惫但心情愉快。"
+                                                            "（压力下降，体力略微上升，与高甜的感情增进了。）"
+                                                            if my.yali >= 0:
+                                                                $my.yali = 0
+                                                            if tian.yali >= 0:
+                                                                $tian.yali = 0
+                                                            $my.meili += 5
+                                                            $tian.meili += 5
+                                                            $my.health += 2
+                                                            $tian.health += 2
+                                                            $tian.like += 3
+                                                        elif 1 < lucky < 4:
+                                                            $bg("太液池")
+                                                            show 高甜 入宫后 笑
+                                                            "和高甜在太液池游玩了一整天……陶醉在令人心旷神怡的自然风光之中。"
+                                                            "（气质上升。）"
+                                                            "虽然疲惫但心情愉快。"
+                                                            "（压力下降，体力略微上升，与高甜的感情增进了。）"
+                                                            if my.yali >= 0:
+                                                                $my.yali = 0
+                                                            if tian.yali >= 0:
+                                                                $tian.yali = 0
+                                                            $my.qizhi += 5
+                                                            $tian.qizhi += 5
+                                                            $my.health += 2
+                                                            $tian.health += 2
+                                                            $tian.like += 3
+                                                        elif 3 < lucky < 6:
+                                                            $bg("上林苑")
+                                                            show 高甜 入宫后 笑
+                                                            "和高甜在上林苑游玩了一整天……在幽然宁静的景致间疗愈身心。"
+                                                            "虽然疲惫但心情愉快。"
+                                                            "（压力下降，体质上升，与高甜的感情增进了。）"
+                                                            if my.yali >= 0:
+                                                                $my.yali = 0
+                                                            if tian.yali >= 0:
+                                                                $tian.yali = 0
+                                                            $my.health += 5
+                                                            $tian.health += 5
+                                                            $tian.like += 3
+
+                                                        else:
+                                                            $bg("妃嫔寝居外")
+                                                            show 高甜 入宫后 笑
+                                                            "和高甜在宫里四处游玩了一整天……在你已经精疲力尽的时候高甜仍然精力充沛……"
+                                                            "虽然疲惫但心情愉快。"
+                                                            "（压力下降，体力大量上升，与高甜的感情增进了。）"
+                                                            if my.yali >= 0:
+                                                                $my.yali = 0
+                                                            if tian.yali >= 0:
+                                                                $tian.yali = 0
+                                                            $my.health += 20
+                                                            $tian.health += 20
+                                                            $tian.like += 5
+                                                        jump 结束本旬
+
+                                                    "婉拒":
+                                                        我 常 "让她改日吧。"
+                                                        我的宫女 "是，奴婢这就去回话。"
+                                                hide 我的宫女
+
+if fz == tian and tian.like >= 30:
+    $lucky = renpy.random.randint(0, 10)
+    if lucky == 0:
+        高甜 思 "唉，以前天天巴望着入宫呢，这会儿又想出宫去玩儿了……"
+        高甜 思 "每次跟皇帝哥哥说起这事儿，他都说我是傻子，你说，他是不是很过分？"
+        我 笑 "怎么，这御膳房的美味已经让你吃厌了？"
+        高甜 常 "是啊，久了就觉得……不管什么菜式都是那一个味儿。"
+        高甜 思 "更重要的是，看不见他们的心思。"
+        我 常 "御膳房的人竟敢对你不上心？"
+        高甜 笑 "唉……并非此意。（犹豫片刻仍是作罢）同你也道不明白。"
+        return
+    elif lucky == 1:
+        高甜 "这宫里有没有什么极少有人知道的、好玩儿的地方？"
+        我 "既然是不为人知的地儿，那咱们又怎么会知道呢？好啦，可是又想出去玩儿了？"
+        高甜 思 "可不是么，待在寝居里都快闷坏了。御花园、太液池也都玩够了，没意思得很。"
+        return
+    elif lucky == 2:
+        我 笑"在看什么？瞧你高兴的。"
+        高甜 笑 "爹爹从宫外送来的家信呢！"
+        我 常 "你想他们了吗？"
+        高甜 常 "偶尔也会想的，不过，宫里的日子也不赖嘛。虽然，有时候的确无聊了点……"
+        return
+    elif lucky == 3:
+        高甜 "气死我了，[aicheng]，我跟你说……我真的后悔死进宫了！"
+        我 "瞧把你给气得，怎么了这是？"
+        高甜 思 "还不算段秦那个臭小子……又借着我爹娘送家书进来，趁机在信里炫耀他又去了好多好多有意思的地方！"
+        我 笑 "你呀……"
+        return
+    else:
+        pass
